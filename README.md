@@ -11,28 +11,41 @@ You could just build your game with modding support included in the box. However
 
 ## Installation
 
-### Preparing your game files
-1. Build a clean version of your server files to a folder
-2. Download Oxide DLL files (located inside the Assemblies folder of this repo)
-3. Copy Oxide DLL files into `/GameName_Data/Managed/`
+### Creating your patch files
+Oxide.YourGame.dll acts as an interface between Oxide and your custom game logic. It contains things such as a base plugins class, assembly whitelisting and other common services plugins may want to use.
+
+To create Oxide.YourGame.dll:
+1. Open Visual Studio/Rider
+2. Create a `Class Library` using whichever target framework your game uses
+3. Add references to Oxide NuGet source and packages
+	* Add a new NuGet source that points to `https://www.myget.org/f/oxide/api/v3/index.json`
+	* Add the following NuGet packages: `Oxide.Core` `Oxide.CSharp` `Oxide.MySql` `Oxide.References` `Oxide.SQlite` `Oxide.Unity`
+
+> `Oxide.YourGame` directory provides examples for what each class should look like.
+
+After writing your own Oxide.YourGame, build the project. Navigate to `obj > Release` and copy `Oxide.YourGame.dll`, `Oxide.Core`, `Oxide.CSharp`, `Oxide.MySql`, `Oxide.References`, `Oxide.SQlite` and `Oxide.Unity` to `/Game_Data/Managed/`.
+> You should be able to confirm your DLL is loaded, along with any error messages, by navigating to `oxide > logs`
+
+> For more examples on how to extend your Oxide.YourGame.dll, you can use dnSpy or other DLL inspection tools to view [Oxide.Rust](https://umod.org/games/rust)
 
 ### Patching Assembly-CSharp
-1. Open `OxidePatcher.exe` while it is inside `/GameName_Data/Managed/`
-2. Navigate to `File > New Project`
+1. Download OxidePatcher.exe by clicking [this link](https://github.com/OxideMod/Oxide.Patcher/releases/download/latest/OxidePatcher.exe)
+2. Move OxidePatcher.exe to `/GameName_Data/Managed/` and double click it
+3. Navigate to `File > New Project`
 	* Enter a name for the project
-	* Set the target directory to be the absolute path to the managed folder (e.g. `C:/Game/Game_Data/Managed/`)
+	* Set the target directory to be the absolute path of the managed folder (e.g. `C:/Game/Game_Data/Managed/`)
 	* Set the filename path to somewhere outside of your game files. (e.g. `C:/Game Modding/config.opj`)
 	* Click `Create`
-3. Under the `Assemblies` dropdown, you should see `Assembly-CSharp`. Right click this, and click `Add to Project`.
-4. Navigate the tree to your entry-point class and method. This is normally the first thing to execute in your game. If you do not have one of these, simply add one to your game and build again.
+4. Under the `Assemblies` dropdown, right click `Assembly-CSharp` and click `Add to Project`.
+5. Navigate the tree to your entry-point class and method. This is normally the first thing to execute in your game. If you do not have one of these, simply add one to your game and build again.
 	* It is customary to have a `Bootstrap.cs` class in an empty scene, which acts as a set-up stage before any game logic is run. If you are modding another person's game, they may already have this in place.
 	* An example of an entry-point method would be `public void Start() { }` inside a `Bootstrap.cs` class.
-5. With this entry-point method selected, click `Hook This Method` and on the new page, where it says `Hook Type`, click the dropdown and select `Initialize Oxide`.
+6. With this entry-point method selected, click `Hook This Method` and on the new page, where it says `Hook Type`, click the dropdown and select `Initialize Oxide`.
 	* You may be prompted with a window saying `Are you sure you want to change the type of this hook? Any hook settings will be lost.` This is fine, click Yes.
-6. Navigate to a method that is 2nd in line for execution. This will be used to inject the `InitLogging` hook, which is used by `Oxide.Unity` to set up logging correctly.
-7. Similar to how you hooked the first method, select the method and click `Hook This Method`. Set the `Hook Name` to `InitLogging` and ensure the `Hook Type` is set to `Simple`.
+7. Navigate to a method that is 2nd in line for execution. This will be used to inject the `InitLogging` hook, which is used by `Oxide.Unity` to set up logging correctly.
+8. Similar to how you hooked the first method, select the method and click `Hook This Method`. Set the `Hook Name` to `InitLogging` and ensure the `Hook Type` is set to `Simple`.
 
-After patching Assembly-CSharp.dll, Oxide should be loaded and modding support should be available. To test if Oxide is working properly, run your server. A new `oxide` folder should be in your root game directory. If this is not the case, ensure you followed each step carefully.
+After patching Assembly-CSharp.dll, Oxide should be loaded when you run the server. When running your server, a new `oxide` folder should appear in your root game directory. If this is not the case, ensure you followed each step carefully.
 
 ### Restoring Assembly-CSharp
 If you mistakenly patch the wrong method, or want to revert for any reason, simply delete the `Assembly-CSharp.dll`, and rename `Assembly-CSharp_Original.dll` to `Assembly-CSharp.dll`.
