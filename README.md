@@ -20,10 +20,10 @@ To create Oxide.YourGame.dll:
 3. Add references to Oxide NuGet source and packages
 	* Add a new NuGet source that points to `https://www.myget.org/f/oxide/api/v3/index.json`
 	* Add the following NuGet packages: `Oxide.Core` `Oxide.CSharp` `Oxide.MySql` `Oxide.References` `Oxide.SQlite` `Oxide.Unity`
+4. Build the project
+5. Navigate to `obj > Release` and copy all of the DLLs to `/Game_Data/Managed/`.
 
 > `Oxide.YourGame` directory provides examples for what each class should look like.
-
-After writing your own Oxide.YourGame, build the project. Navigate to `obj > Release` and copy `Oxide.YourGame.dll`, `Oxide.Core`, `Oxide.CSharp`, `Oxide.MySql`, `Oxide.References`, `Oxide.SQlite` and `Oxide.Unity` to `/Game_Data/Managed/`.
 
 ### Patching Assembly-CSharp
 1. Download OxidePatcher.exe by clicking [this link](https://github.com/OxideMod/Oxide.Patcher/releases/download/latest/OxidePatcher.exe)
