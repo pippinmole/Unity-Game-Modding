@@ -40,10 +40,15 @@ To create Oxide.YourGame.dll:
 	* You may be prompted with a window saying `Are you sure you want to change the type of this hook? Any hook settings will be lost.` This is fine, click Yes.
 7. Navigate to a method that is 2nd in line for execution. This will be used to inject the `InitLogging` hook, which is used by `Oxide.Unity` to set up logging correctly.
 8. Similar to how you hooked the first method, select the method and click `Hook This Method`. Set the `Hook Name` to `InitLogging` and ensure the `Hook Type` is set to `Simple`.
-
-After patching Assembly-CSharp.dll, Oxide should be loaded when you run the server. When running your server, a new `oxide` folder should appear in your root game directory. If this is not the case, ensure you followed each step carefully.
+9. Click the magic wand top left of the window. This will patch Assembly-CSharp.dll
+10. You're done! 
 
 > You should be able to confirm your DLL is loaded, along with any error messages, by navigating to `oxide > logs`
+
+> You may be required to import additional DLLs that are required by Oxide, depending on if your game already has these. Here are the dependencies for each package:
+> [Oxide.References dependencies](https://github.com/OxideMod/Oxide.References/tree/develop/src/Dependencies)
+> [Oxide.MySQL dependencies](https://github.com/OxideMod/Oxide.MySQL/tree/master/src/Dependencies)
+> [Oxide.SQLite dependencies](https://github.com/OxideMod/Oxide.SQLite/tree/master/src/Dependencies)
 
 > For more examples on how to extend your Oxide.YourGame.dll, you can use dnSpy or other DLL inspection tools to view [Oxide.Rust](https://umod.org/games/rust)
 
