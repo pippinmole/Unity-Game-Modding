@@ -24,9 +24,6 @@ To create Oxide.YourGame.dll:
 > `Oxide.YourGame` directory provides examples for what each class should look like.
 
 After writing your own Oxide.YourGame, build the project. Navigate to `obj > Release` and copy `Oxide.YourGame.dll`, `Oxide.Core`, `Oxide.CSharp`, `Oxide.MySql`, `Oxide.References`, `Oxide.SQlite` and `Oxide.Unity` to `/Game_Data/Managed/`.
-> You should be able to confirm your DLL is loaded, along with any error messages, by navigating to `oxide > logs`
-
-> For more examples on how to extend your Oxide.YourGame.dll, you can use dnSpy or other DLL inspection tools to view [Oxide.Rust](https://umod.org/games/rust)
 
 ### Patching Assembly-CSharp
 1. Download OxidePatcher.exe by clicking [this link](https://github.com/OxideMod/Oxide.Patcher/releases/download/latest/OxidePatcher.exe)
@@ -46,6 +43,10 @@ After writing your own Oxide.YourGame, build the project. Navigate to `obj > Rel
 8. Similar to how you hooked the first method, select the method and click `Hook This Method`. Set the `Hook Name` to `InitLogging` and ensure the `Hook Type` is set to `Simple`.
 
 After patching Assembly-CSharp.dll, Oxide should be loaded when you run the server. When running your server, a new `oxide` folder should appear in your root game directory. If this is not the case, ensure you followed each step carefully.
+
+> You should be able to confirm your DLL is loaded, along with any error messages, by navigating to `oxide > logs`
+
+> For more examples on how to extend your Oxide.YourGame.dll, you can use dnSpy or other DLL inspection tools to view [Oxide.Rust](https://umod.org/games/rust)
 
 ### Restoring Assembly-CSharp
 If you mistakenly patch the wrong method, or want to revert for any reason, simply delete the `Assembly-CSharp.dll`, and rename `Assembly-CSharp_Original.dll` to `Assembly-CSharp.dll`.
